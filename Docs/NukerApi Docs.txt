@@ -1,0 +1,277 @@
+V1 
+This mod allows too break multible block without any hastle
+These are the things too use when making your item this
+public static Item pickaxeWood = (new ItemPickaxe(14, EnumToolMaterial.WOOD)).setIconCoord(0, 6).setItemName("pickaxeWood").set3x3x3(); ;
+
+.set3x3x3(); 
+just 3 by 3 by 3 in 3d
+
+.set3x3x1(); 
+works when looking up down left right or back and foward
+
+.set5x4x3(); 
+its 5x4x1 when looking left right foward and back but 5x5x1 when looking up or down
+
+.setcustomnapi(napi_default.class);
+this allows for custom block breaking mechanics
+
+Demo without the sendblockremoved:
+
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+package net.minecraft.src;
+
+import net.minecraft.client.Minecraft;
+
+public class napi_default extends PlayerControllerSP{
+
+	public napi_default(Minecraft minecraft1) {
+		super(minecraft1);
+		// TODO Auto-generated constructor stub
+	}
+	public void lookup(int i1, int i2, int i3, int i4)
+	{}
+		public void lookdown(int i1, int i2, int i3, int i4)
+		{}
+			public void lookfoward(int i1, int i2, int i3, int i4)
+			{}
+				public void lookback(int i1, int i2, int i3, int i4)
+				{}
+					public void lookleft(int i1, int i2, int i3, int i4)
+					{}
+						public void lookright(int i1, int i2, int i3, int i4)
+						{}
+					
+
+
+}
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+Demo in use: (make sure that when your breaking a block it isnt a bedrock block or material air,water,lava)
+
+demo of that this breaks like a star
+  x 
+xxx
+  x :
+
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+package net.minecraft.src;
+
+import net.minecraft.client.Minecraft;
+
+public class napi_default extends PlayerControllerSP {
+
+  public napi_default(Minecraft minecraft1) {
+    super(minecraft1);
+
+  }
+  public void all(int i1, int i2, int i3, int i4) {
+    if (this.mc.theWorld.getBlockId(i1, i2, i3 + 1) != 0) {
+      Block block = Block.blocksList[this.mc.theWorld.getBlockId(i1, i2, i3 + 1)];
+      Material material = block.blockMaterial;
+      if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+        this.sendBlockRemoved(i1, i2, i3 + 1, i4);
+      }
+
+    }
+    if (this.mc.theWorld.getBlockId(i1, i2, i3 - 1) != 0) {
+      Block block = Block.blocksList[this.mc.theWorld.getBlockId(i1, i2, i3 - 1)];
+      Material material = block.blockMaterial;
+      if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+        this.sendBlockRemoved(i1, i2, i3 - 1, i4);
+      }
+
+    }
+    if (this.mc.theWorld.getBlockId(i1, i2, i3) != 0) {
+      Block block = Block.blocksList[this.mc.theWorld.getBlockId(i1, i2, i3)];
+      Material material = block.blockMaterial;
+      if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+        this.sendBlockRemoved(i1, i2, i3, i4);
+      }
+    }
+    if (this.mc.theWorld.getBlockId(i1 + 1, i2, i3) != 0) {
+      Block block = Block.blocksList[this.mc.theWorld.getBlockId(i1 + 1, i2, i3)];
+      Material material = block.blockMaterial;
+      if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+        this.sendBlockRemoved(i1 + 1, i2, i3, i4);
+      }
+    }
+
+    if (this.mc.theWorld.getBlockId(i1 - 1, i2, i3) != 0) {
+      Block block = Block.blocksList[this.mc.theWorld.getBlockId(i1 - 1, i2, i3)];
+      Material material = block.blockMaterial;
+      if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+        this.sendBlockRemoved(i1 - 1, i2, i3, i4);
+      }
+    }
+  }
+  public void lookup(int i1, int i2, int i3, int i4) {
+    this.all(i1, i2, i3, i4);
+  }
+  public void lookdown(int i1, int i2, int i3, int i4) {
+    this.all(i1, i2, i3, i4);
+
+  }
+  public void lookfoward(int i1, int i2, int i3, int i4) {
+    this.all(i1, i2, i3, i4);
+
+  }
+  public void lookback(int i1, int i2, int i3, int i4) {
+    this.all(i1, i2, i3, i4);
+
+  }
+  public void lookleft(int i1, int i2, int i3, int i4) {
+    this.all(i1, i2, i3, i4);
+
+  }
+  public void lookright(int i1, int i2, int i3, int i4) {
+    this.all(i1, i2, i3, i4);
+
+  }
+
+}
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+this is the 5x4x1 test on how too make your own but the one above will do
+
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+package net.minecraft.src;
+
+import net.minecraft.client.Minecraft;
+
+public class napi_5x4x1_test extends PlayerControllerSP {
+
+    public napi_5x4x1_test(Minecraft minecraft) {
+        super(minecraft);
+    }
+    
+public void lookup(  int i1, int i2, int i3, int i4) {
+	 for (int xOffset = -2; xOffset <= 2; xOffset++) {
+         for (int yOffset = -2; yOffset <= 2; yOffset++) {
+             for (int zOffset = 0; zOffset <= 0; zOffset++) {
+                 int x = i1 + xOffset;
+                 int y = i2 + zOffset;
+                 int z = i3 + yOffset;
+                 if (this.mc.theWorld.getBlockId(x, y, z) != 0) {
+                     Block block = Block.blocksList[this.mc.theWorld.getBlockId(x, y, z)];
+                     Material material = block.blockMaterial;
+                     if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+                         this.sendBlockRemoved(x, y, z, i4);
+                     }
+                 }
+             }
+         }
+     }
+}
+public void lookdown(  int i1, int i2, int i3, int i4) {
+	 for (int xOffset = -2; xOffset <= 2; xOffset++) {
+         for (int yOffset = -2; yOffset <= 2; yOffset++) {
+             for (int zOffset = 0; zOffset <= 0; zOffset++) {
+                 int x = i1 + xOffset;
+                 int y = i2 + zOffset;
+                 int z = i3 + yOffset;
+                 if (this.mc.theWorld.getBlockId(x, y, z) != 0) {
+                     Block block = Block.blocksList[this.mc.theWorld.getBlockId(x, y, z)];
+                     Material material = block.blockMaterial;
+                     if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+                         this.sendBlockRemoved(x, y, z, i4);
+                     }
+                 }
+             }
+         }
+     }
+}
+
+public void lookfoward(  int i1, int i2, int i3, int i4) {
+	for (int xOffset = -2; xOffset <= 2; xOffset++) {
+	    for (int yOffset = -1; yOffset <= 2; yOffset++) {
+	        for (int zOffset = 0; zOffset <= 0; zOffset++) {
+	            int x = i1 + xOffset;
+	            int y = i2 + yOffset;
+	            int z = i3 + zOffset;
+	            if (this.mc.theWorld.getBlockId(x, y, z) != 0) {
+	                Block block = Block.blocksList[this.mc.theWorld.getBlockId(x, y, z)];
+	                Material material = block.blockMaterial;
+	                if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+	                    this.sendBlockRemoved(x, y, z, i4);
+	                }
+	            }
+	        }
+	    }
+	}
+}
+public void lookback(  int i1, int i2, int i3, int i4) {
+	for (int xOffset = -2; xOffset <= 2; xOffset++) {
+	    for (int yOffset = -1; yOffset <= 2; yOffset++) {
+	        for (int zOffset = 0; zOffset <= 0; zOffset++) {
+	            int x = i1 + xOffset;
+	            int y = i2 + yOffset;
+	            int z = i3 + zOffset;
+	            if (this.mc.theWorld.getBlockId(x, y, z) != 0) {
+	                Block block = Block.blocksList[this.mc.theWorld.getBlockId(x, y, z)];
+	                Material material = block.blockMaterial;
+	                if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+	                    this.sendBlockRemoved(x, y, z, i4);
+	                }
+	            }
+	        }
+	    }
+	}
+}
+
+public void lookleft(  int i1, int i2, int i3, int i4) {
+	for (int xOffset = -2; xOffset <= 2; xOffset++) {
+	    for (int yOffset = -1; yOffset <= 2; yOffset++) {
+	        for (int zOffset = 0; zOffset <= 0; zOffset++) {
+	            int x = i1 + zOffset;
+	            int y = i2 + yOffset;
+	            int z = i3 + xOffset;
+	            if (this.mc.theWorld.getBlockId(x, y, z) != 0) {
+	                Block block = Block.blocksList[this.mc.theWorld.getBlockId(x, y, z)];
+	                Material material = block.blockMaterial;
+	                if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+	                    this.sendBlockRemoved(x, y, z, i4);
+	                }
+	            }
+	        }
+	    }
+	}
+}
+public void lookright(  int i1, int i2, int i3, int i4) {
+	for (int xOffset = -2; xOffset <= 2; xOffset++) {
+	    for (int yOffset = -1; yOffset <= 2; yOffset++) {
+	        for (int zOffset = 0; zOffset <= 0; zOffset++) {
+	            int x = i1 + zOffset;
+	            int y = i2 + yOffset;
+	            int z = i3 + xOffset;
+	            if (this.mc.theWorld.getBlockId(x, y, z) != 0) {
+	                Block block = Block.blocksList[this.mc.theWorld.getBlockId(x, y, z)];
+	                Material material = block.blockMaterial;
+	                if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+	                    this.sendBlockRemoved(x, y, z, i4);
+	                }
+	            }
+	        }
+	    }
+	}
+}
+
+
+
+
+}
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

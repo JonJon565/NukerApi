@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Minecraft Mod Info</title>
+    <style>
+        .dropdown-content {
+            display: none;
+        }
+        
+        .dropdown:hover .dropdown-arrow {
+            display: inline;
+        }
+        
+        .dropdown.active .dropdown-content {
+            display: block;
+        }
+        
+        .dropdown-arrow {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Minecraft Mod Info</h1>
+    <h2>V1</h2>
+    <p>This mod allows you to break multiple blocks without any hassle.</p>
+    <h3>These are the things to use when making your item:<h3>
+	<h3>public static Item pickaxeWood = (new ItemPickaxe(14, EnumToolMaterial.WOOD)).setIconCoord(0, 6).setItemName("pickaxeWood").set3x3x1()</h3>
+		<h3>public static Item pickaxeWood = (new ItemPickaxe(14, EnumToolMaterial.WOOD)).setIconCoord(0, 6).setItemName("pickaxeWood").set3x3x3()</h3>
+			<h3>public static Item pickaxeWood = (new ItemPickaxe(14, EnumToolMaterial.WOOD)).setIconCoord(0, 6).setItemName("pickaxeWood").set5x4x1</h3>
+				<h3>public static Item pickaxeWood = (new ItemPickaxe(14, EnumToolMaterial.WOOD)).setIconCoord(0, 6).setItemName("pickaxeWood").setcustomnapi(napi_5x4x1_test.class)</h3>
+    <ul>
+        <li>
+            <div class="dropdown">
+                <span>public static Item pickaxeWood</span>
+                <span class="dropdown-arrow">&#9662;</span>
+                <div class="dropdown-content">
+                    <p>This item is a wooden pickaxe.</p>
+                    <p>Icon coordinates: (0, 6)</p>
+                    <p>Item name: pickaxeWood</p>
+                    <p>Block breaking size: 3x3x3</p>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="dropdown">
+                <span>set3x3x3()</span>
+                <span class="dropdown-arrow">&#9662;</span>
+                <div class="dropdown-content">
+                    <p>This method sets the block breaking size to 3x3x3 in 3D.</p>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="dropdown">
+                <span>set3x3x1()</span>
+                <span class="dropdown-arrow">&#9662;</span>
+                <div class="dropdown-content">
+                    <p>This method works when looking up, down, left, right, forward, or back.</p>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="dropdown">
+                <span>set5x4x3()</span>
+                <span class="dropdown-arrow">&#9662;</span>
+                <div class="dropdown-content">
+                    <p>This method sets the block breaking size to 5x4x1 when looking left, right, forward, or back.</p>
+                    <p>When looking up or down, the block breaking size becomes 5x5x1.</p>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="dropdown">
+                <span>setcustomnapi(napi_default.class)</span>
+                <span class="dropdown-arrow">&#9662;</span>
+                <div class="dropdown-content">
+                    <p>This method allows for custom block breaking mechanics using the specified napi_default class.</p>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <h3 class="dropdown">
+        <span>Demo without the sendblockremoved:</span>
+        <span class="dropdown-arrow">&#9662;</span>
+        <div class="dropdown-content">
+            <div class="demo-code-block">
+                <pre>
+package net.minecraft.src;
+
+import net.minecraft.client.Minecraft;
+
+public class napi_default extends PlayerControllerSP{
+
+	public napi_default(Minecraft minecraft1) {
+		super(minecraft1);
+		// TODO Auto-generated constructor stub
+	}
+	public void lookup(int i1, int i2, int i3, int i4)
+	{}
+		public void lookdown(int i1, int i2, int i3, int i4)
+		{}
+			public void lookfoward(int i1, int i2, int i3, int i4)
+			{}
+				public void lookback(int i1, int i2, int i3, int i4)
+				{}
+					public void lookleft(int i1, int i2, int i3, int i4)
+					{}
+						public void lookright(int i1, int i2, int i3, int i4)
+						{}
+					
+
+                </pre>
+            </div>
+        </div>
+    </h3>
+    <h3 class="dropdown">
+        <span>Demo in use:</span>
+        <span class="dropdown-arrow">&#9662;</span>
+        <div class="dropdown-content">
+            <p>Make sure that when you're breaking a block, it isn't bedrock or made of air, water, or lava.</p>
+            <p>Demo of how this breaks like a star:</p>
+            <pre>
+  x
+ xxx
+  x
+  
+  package net.minecraft.src;
+
+import net.minecraft.client.Minecraft;
+
+public class napi_default extends PlayerControllerSP {
+
+  public napi_default(Minecraft minecraft1) {
+    super(minecraft1);
+
+  }
+  public void all(int i1, int i2, int i3, int i4) {
+    if (this.mc.theWorld.getBlockId(i1, i2, i3 + 1) != 0) {
+      Block block = Block.blocksList[this.mc.theWorld.getBlockId(i1, i2, i3 + 1)];
+      Material material = block.blockMaterial;
+      if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+        this.sendBlockRemoved(i1, i2, i3 + 1, i4);
+      }
+
+    }
+    if (this.mc.theWorld.getBlockId(i1, i2, i3 - 1) != 0) {
+      Block block = Block.blocksList[this.mc.theWorld.getBlockId(i1, i2, i3 - 1)];
+      Material material = block.blockMaterial;
+      if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+        this.sendBlockRemoved(i1, i2, i3 - 1, i4);
+      }
+
+    }
+    if (this.mc.theWorld.getBlockId(i1, i2, i3) != 0) {
+      Block block = Block.blocksList[this.mc.theWorld.getBlockId(i1, i2, i3)];
+      Material material = block.blockMaterial;
+      if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+        this.sendBlockRemoved(i1, i2, i3, i4);
+      }
+    }
+    if (this.mc.theWorld.getBlockId(i1 + 1, i2, i3) != 0) {
+      Block block = Block.blocksList[this.mc.theWorld.getBlockId(i1 + 1, i2, i3)];
+      Material material = block.blockMaterial;
+      if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+        this.sendBlockRemoved(i1 + 1, i2, i3, i4);
+      }
+    }
+
+    if (this.mc.theWorld.getBlockId(i1 - 1, i2, i3) != 0) {
+      Block block = Block.blocksList[this.mc.theWorld.getBlockId(i1 - 1, i2, i3)];
+      Material material = block.blockMaterial;
+      if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+        this.sendBlockRemoved(i1 - 1, i2, i3, i4);
+      }
+    }
+  }
+  public void lookup(int i1, int i2, int i3, int i4) {
+    this.all(i1, i2, i3, i4);
+  }
+  public void lookdown(int i1, int i2, int i3, int i4) {
+    this.all(i1, i2, i3, i4);
+
+  }
+  public void lookfoward(int i1, int i2, int i3, int i4) {
+    this.all(i1, i2, i3, i4);
+
+  }
+  public void lookback(int i1, int i2, int i3, int i4) {
+    this.all(i1, i2, i3, i4);
+
+  }
+  public void lookleft(int i1, int i2, int i3, int i4) {
+    this.all(i1, i2, i3, i4);
+
+  }
+  public void lookright(int i1, int i2, int i3, int i4) {
+    this.all(i1, i2, i3, i4);
+
+  }
+
+}
+            </pre>
+        </div>
+    </h3>
+    <h3 class="dropdown">
+        <span>This is the 5x4x1 test on how to make your own, but the one above will do:</span>
+        <span class="dropdown-arrow">&#9662;</span>
+        <div class="dropdown-content">
+            <div class="demo-code-block">
+                <pre>
+package net.minecraft.src;
+
+import net.minecraft.client.Minecraft;
+
+public class napi_5x4x1_test extends PlayerControllerSP {
+
+    public napi_5x4x1_test(Minecraft minecraft) {
+        super(minecraft);
+    }
+    
+public void lookup(  int i1, int i2, int i3, int i4) {
+	 for (int xOffset = -2; xOffset <= 2; xOffset++) {
+         for (int yOffset = -2; yOffset <= 2; yOffset++) {
+             for (int zOffset = 0; zOffset <= 0; zOffset++) {
+                 int x = i1 + xOffset;
+                 int y = i2 + zOffset;
+                 int z = i3 + yOffset;
+                 if (this.mc.theWorld.getBlockId(x, y, z) != 0) {
+                     Block block = Block.blocksList[this.mc.theWorld.getBlockId(x, y, z)];
+                     Material material = block.blockMaterial;
+                     if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+                         this.sendBlockRemoved(x, y, z, i4);
+                     }
+                 }
+             }
+         }
+     }
+}
+public void lookdown(  int i1, int i2, int i3, int i4) {
+	 for (int xOffset = -2; xOffset <= 2; xOffset++) {
+         for (int yOffset = -2; yOffset <= 2; yOffset++) {
+             for (int zOffset = 0; zOffset <= 0; zOffset++) {
+                 int x = i1 + xOffset;
+                 int y = i2 + zOffset;
+                 int z = i3 + yOffset;
+                 if (this.mc.theWorld.getBlockId(x, y, z) != 0) {
+                     Block block = Block.blocksList[this.mc.theWorld.getBlockId(x, y, z)];
+                     Material material = block.blockMaterial;
+                     if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+                         this.sendBlockRemoved(x, y, z, i4);
+                     }
+                 }
+             }
+         }
+     }
+}
+
+public void lookfoward(  int i1, int i2, int i3, int i4) {
+	for (int xOffset = -2; xOffset <= 2; xOffset++) {
+	    for (int yOffset = -1; yOffset <= 2; yOffset++) {
+	        for (int zOffset = 0; zOffset <= 0; zOffset++) {
+	            int x = i1 + xOffset;
+	            int y = i2 + yOffset;
+	            int z = i3 + zOffset;
+	            if (this.mc.theWorld.getBlockId(x, y, z) != 0) {
+	                Block block = Block.blocksList[this.mc.theWorld.getBlockId(x, y, z)];
+	                Material material = block.blockMaterial;
+	                if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+	                    this.sendBlockRemoved(x, y, z, i4);
+	                }
+	            }
+	        }
+	    }
+	}
+}
+public void lookback(  int i1, int i2, int i3, int i4) {
+	for (int xOffset = -2; xOffset <= 2; xOffset++) {
+	    for (int yOffset = -1; yOffset <= 2; yOffset++) {
+	        for (int zOffset = 0; zOffset <= 0; zOffset++) {
+	            int x = i1 + xOffset;
+	            int y = i2 + yOffset;
+	            int z = i3 + zOffset;
+	            if (this.mc.theWorld.getBlockId(x, y, z) != 0) {
+	                Block block = Block.blocksList[this.mc.theWorld.getBlockId(x, y, z)];
+	                Material material = block.blockMaterial;
+	                if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+	                    this.sendBlockRemoved(x, y, z, i4);
+	                }
+	            }
+	        }
+	    }
+	}
+}
+
+public void lookleft(  int i1, int i2, int i3, int i4) {
+	for (int xOffset = -2; xOffset <= 2; xOffset++) {
+	    for (int yOffset = -1; yOffset <= 2; yOffset++) {
+	        for (int zOffset = 0; zOffset <= 0; zOffset++) {
+	            int x = i1 + zOffset;
+	            int y = i2 + yOffset;
+	            int z = i3 + xOffset;
+	            if (this.mc.theWorld.getBlockId(x, y, z) != 0) {
+	                Block block = Block.blocksList[this.mc.theWorld.getBlockId(x, y, z)];
+	                Material material = block.blockMaterial;
+	                if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+	                    this.sendBlockRemoved(x, y, z, i4);
+	                }
+	            }
+	        }
+	    }
+	}
+}
+public void lookright(  int i1, int i2, int i3, int i4) {
+	for (int xOffset = -2; xOffset <= 2; xOffset++) {
+	    for (int yOffset = -1; yOffset <= 2; yOffset++) {
+	        for (int zOffset = 0; zOffset <= 0; zOffset++) {
+	            int x = i1 + zOffset;
+	            int y = i2 + yOffset;
+	            int z = i3 + xOffset;
+	            if (this.mc.theWorld.getBlockId(x, y, z) != 0) {
+	                Block block = Block.blocksList[this.mc.theWorld.getBlockId(x, y, z)];
+	                Material material = block.blockMaterial;
+	                if (block != Block.bedrock && material != Material.air && block != Block.lavaMoving && block != Block.lavaStill && block != Block.waterMoving && block != Block.waterStill) {
+	                    this.sendBlockRemoved(x, y, z, i4);
+	                }
+	            }
+	        }
+	    }
+	}
+}
+
+
+
+
+}
+                </pre>
+            </div>
+        </div>
+    </h3>
+    <script>
+        var dropdowns = document.getElementsByClassName('dropdown');
+        for (var i = 0; i < dropdowns.length; i++) {
+            dropdowns[i].addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>
